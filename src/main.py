@@ -54,7 +54,17 @@ def ingresardatos():
 def mostrar():
     while(True):
         menumostrar()
-        op2 = int(input("  INGRESE OPCIÓN : "))
+
+        # riesgo: transformar un str a entero sin comprobaciones
+        # op2 = int(input("  INGRESE OPCIÓN : "))
+        
+        while True:
+            try:
+                op2 = int(input("  INGRESE OPCIÓN : "))
+                break
+            except ValueError:
+                print("Hubo un problema al procesar su solicitud\nintente de nuevo")
+
         if op2 == 1:
             mostrartodo()
             input("\n\n PRESIONE ENTER PARA CONTINUAR")
@@ -81,7 +91,17 @@ def mostraruno():
     print("=================================")
     print("   MUESTRA DE DATOS PARTICULAR   ")
     print("=================================")
-    op=int(input("\n Ingrese valor del ID del Cliente que desea Mostrar los Datos : "))
+
+    # riesgo: transformar un str a entero sin comprobaciones
+    # op=int(input("\n Ingrese valor del ID del Cliente que desea Mostrar los Datos : "))
+
+    while True:
+        try:
+            op=int(input("\n Ingrese valor del ID del Cliente que desea Mostrar los Datos : "))
+            break
+        except ValueError:
+            print("Hubo un problema al procesar su solicitud\nintente de nuevo")
+
     datos = clientes.get(op)
     print(datos)
     print("\n=======================================")
@@ -104,7 +124,16 @@ def mostrarparcial():
     print("=======================================")
     print("   MUESTRA PARCIALMENTE LOS CLIENTES   ")
     print("=======================================")
-    cant = int(input("\nIngrese la Cantidad de Clientes a Mostrar : "))
+
+    # riesgo: transformar un str a entero sin comprobaciones
+    # cant = int(input("\nIngrese la Cantidad de Clientes a Mostrar : "))
+
+    while True:
+        try:
+            cant = int(input("\nIngrese la Cantidad de Clientes a Mostrar : "))
+            break
+        except ValueError:
+            print("Hubo un problema al procesar su solicitud\nintente de nuevo")
     
     datos = list(clientes.items())[:cant]
     for cliente,dato in datos:
@@ -120,8 +149,22 @@ def modificardatos():
     print("      MODULO MODIFICAR CLIENTE     ")
     print("===================================")
     mostrartodo()
-    mod = int(input("\n Ingrese valor de ID del Cliente que desea Modificar : "))
-    datos = clientes.get(mod)
+
+    # riesgo: transformar un str a entero sin comprobaciones
+    # mod = int(input("\n Ingrese valor de ID del Cliente que desea Modificar : "))
+    while True:
+        try:
+            mod = int(input("\n Ingrese valor de ID del Cliente que desea Modificar : "))
+            break
+        except ValueError:
+            print("Hubo un problema al procesar su solicitud\nintente de nuevo")
+
+    # riesgo: no se le asigno un valor por defecto a get, tampoco valida si realmente existe
+    # datos = clientes.get(mod)
+    datos = clientes.get(mod, False)
+    if datos == False:
+        print("No se encontro el modulo a modificar.")
+        return
     
     print(" ID         : {} ".format(datos[0]))
     listanuevos.append(datos[0])
