@@ -1,3 +1,7 @@
+
+MINIMO_LONGITUD_CLAVE = 10
+CHAR_ESPECIALES = '!#$%&()*+,-.:;<=>?@[]^_`{|}~'
+
 clientes = {}
 usuarios = {}
 idcliente = 0
@@ -57,7 +61,7 @@ def mostrar():
 
         # riesgo: transformar un str a entero sin comprobaciones
         # op2 = int(input("  INGRESE OPCIÓN : "))
-        
+
         while True:
             try:
                 op2 = int(input("  INGRESE OPCIÓN : "))
@@ -255,11 +259,52 @@ def ingresoUsuarios():
     print("=======================================")
     print("        INGRESO DE USUARIO             ")
     print("=======================================")
-    username = input( "INGRESE NOMBRE DE USUARIO:  ")
-    clave = input( "INGRESE PASSWORD         : ")
-    nombre = input(   "INGRESE NOMBRE           : ")
-    apellidos = input("INGRESE APELLIDOS        : ")
-    correo = input(   "INGRESE CORREO           : ")
+
+    # riesgo en todos los inputs: no se usa strip por lo cual se acepta espacios entre caracteres
+
+    username = input( "INGRESE NOMBRE DE USUARIO:  ").strip()
+
+    # riesgo: la clave no puede contener espacios, tampoco se verifica si la clave es fuerte
+    # clave = input( "INGRESE PASSWORD         : ")
+
+    clave = input( "INGRESE PASSWORD:  ").strip()
+    if len(clave) < MINIMO_LONGITUD_CLAVE:
+        print(f"su clave debe contar con una longitud de {MINIMO_LONGITUD_CLAVE} como minimo")
+        return
+    flag = False
+    for char in clave:
+        if char in CHAR_ESPECIALES:
+            flag = True
+            break
+    if flag == False:
+        print("su clave debe contener minimo 1 caracter especial")
+        return
+    
+    nombre = input(   "INGRESE NOMBRE           : ") # El usuario puede tener mas de un nombre
+    apellidos = input("INGRESE APELLIDOS        : ") # APELLIDOS en plural, pide todos, no se usa strip.
+    # Riesgo: No se verifica el input de correo
+    #correo = input(   "INGRESE CORREO           : ").strip() 
+
+    correo = input(   "INGRESE CORREO:  ").strip() 
+    empezar_contado = False
+    dominio = []
+    usuario = []
+    for buscar_dom in correo:
+        if buscar_dom == '@':
+            empezar_contado = True
+        elif empezar_contado == True:
+            dominio.append(buscar_dom)
+    
+    for buscar_usuario in correo:
+        if not buscar_usuario == '@':
+            usuario.append(buscar_usuario)
+        else:
+            break
+
+    if (not '.' in dominio) or (not usuario):
+        print("correo invalido")
+
+
     print("=======================================")
     global idusuario
     idusuario += 1
