@@ -1,22 +1,17 @@
 # hashlib lo usaremos para hashear en sha256 las claves
 # evitando que en alguna database leak se muestre informacion sensible
 # es decir: Que no se muestren claves en texto plano
-
 import hashlib 
+# getpass hace que no se pueda ver la contraseña que se escribe
+# importante para mayor seguridad del sistema 
+import getpass
 
+MINIMO_LONGITUD_CLAVE = 10
+CHAR_ESPECIALES = '!#$%&()*+,-.:;<=>?@[]^_`{|}~'
 # Una clave con una longitud de 10 
 # con al menos un caracter especial
 # hace que un ataque de fuerza bruta sea ineficiente 
 # puesto que tomaria cientos de años descifrar la clave por algoritmos matematicos avanzados
-
-import getpass
-
-# getpass hace que no se pueda ver la contraseña que se escribe
-# importante para mayor seguridad del sistema 
-
-MINIMO_LONGITUD_CLAVE = 10
-CHAR_ESPECIALES = '!#$%&()*+,-.:;<=>?@[]^_`{|}~'
-
 clientes = {}
 usuarios = {}
 idcliente = 0
