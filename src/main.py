@@ -9,6 +9,11 @@ import hashlib
 # hace que un ataque de fuerza bruta sea ineficiente 
 # puesto que tomaria cientos de años descifrar la clave por algoritmos matematicos avanzados
 
+import getpass
+
+# getpass hace que no se pueda ver la contraseña que se escribe
+# importante para mayor seguridad del sistema 
+
 MINIMO_LONGITUD_CLAVE = 10
 CHAR_ESPECIALES = '!#$%&()*+,-.:;<=>?@[]^_`{|}~'
 
@@ -286,7 +291,7 @@ def ingresoUsuarios():
     # riesgo: la clave no se verifica, tampoco si la clave es fuerte
     # clave = input( "INGRESE PASSWORD         : ")
 
-    clave = input( "INGRESE PASSWORD:  ").strip()
+    clave = getpass.getpass( "INGRESE PASSWORD:  ").strip()
     if len(clave) < MINIMO_LONGITUD_CLAVE:
         print(f"su clave debe contar con una longitud de {MINIMO_LONGITUD_CLAVE} como minimo")
         return
@@ -349,7 +354,7 @@ while True:
 
     if opUsu == 1:
         user = input("Ingrese nombre de usuario: ")
-        clave = input("Ingrese password: ")
+        clave = getpass.getpass("Ingrese password: ")
         clave_hasheada = (hashlib.sha256(clave.encode('utf-8'))).hexdigest()
         clave_hasheada_visible = clave_hasheada[:10]
         # Se refactorizo el bloque de codigo completo para que sea mas legible
