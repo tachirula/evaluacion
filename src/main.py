@@ -1,9 +1,11 @@
 # hashlib lo usaremos para hashear en sha256 las claves
 # evitando que en alguna database leak se muestre informacion sensible
 # es decir: Que no se muestren claves en texto plano
+# Autor: Tomas 
 import hashlib 
 # getpass hace que no se pueda ver la contraseña que se escribe
 # importante para mayor seguridad del sistema 
+# Autor: Tomas 
 import getpass
 
 MINIMO_LONGITUD_CLAVE = 10
@@ -12,6 +14,7 @@ CHAR_ESPECIALES = '!#$%&()*+,-.:;<=>?@[]^_`{|}~'
 # con al menos un caracter especial
 # hace que un ataque de fuerza bruta sea ineficiente 
 # puesto que tomaria cientos de años descifrar la clave por algoritmos matematicos avanzados
+# Autor: Tomas 
 clientes = {}
 usuarios = {}
 idcliente = 0
@@ -68,17 +71,19 @@ def ingresardatos():
 def mostrar():
     while(True):
         menumostrar()
-
+        # ------------------------------------------------------------------------------------
         # riesgo: transformar un str a entero sin comprobaciones
         # op2 = int(input("  INGRESE OPCIÓN : "))
         # el while true con try except intenta varias veces el input hasta que es valido
+        # Autor: Tomas 
         while True:
             try:
                 op2 = int(input("  INGRESE OPCIÓN : "))
                 break
             except ValueError:
                 print("Hubo un problema al procesar su solicitud\nintente de nuevo")
-
+        # Autor: Tomas 
+        # -------------------------------------------------------------------------------------
         if op2 == 1:
             mostrartodo()
             input("\n\n PRESIONE ENTER PARA CONTINUAR")
@@ -105,21 +110,23 @@ def mostraruno():
     print("=================================")
     print("   MUESTRA DE DATOS PARTICULAR   ")
     print("=================================")
-
+    # --------------------------------------------------------------------------------------
     # riesgo: transformar un str a entero sin comprobaciones
     # op=int(input("\n Ingrese valor del ID del Cliente que desea Mostrar los Datos : "))
     # el while true con try except intenta varias veces el input hasta que es valido
+    # Autor: Tomas 
     while True:
         try:
             op=int(input("\n Ingrese valor del ID del Cliente que desea Mostrar los Datos : "))
             break
         except ValueError:
             print("Hubo un problema al procesar su solicitud\nintente de nuevo")
-
     datos = clientes.get(op, False)
     if (not datos) or datos == False:
         print("no hay nada que mostrar")
         return
+    # Autor: Tomas 
+    # --------------------------------------------------------------------------------------
     print(datos)
     print("\n=======================================")
     print("    MUESTRA  DE  DATOS  DEL   CLIENTE   ")
@@ -142,15 +149,19 @@ def mostrarparcial():
     print("   MUESTRA PARCIALMENTE LOS CLIENTES   ")
     print("=======================================")
 
+    # -------------------------
     # riesgo: transformar un str a entero sin comprobaciones
     # cant = int(input("\nIngrese la Cantidad de Clientes a Mostrar : "))
     # el while true con try except intenta varias veces el input hasta que es valido    
+    # Autor: Tomas 
     while True:
         try:
             cant = int(input("\nIngrese la Cantidad de Clientes a Mostrar : "))
             break
         except ValueError:
             print("Hubo un problema al procesar su solicitud\nintente de nuevo")
+    # Autor: Tomas 
+    # --------------------------
     
     datos = list(clientes.items())[:cant]
     for cliente,dato in datos:
@@ -166,25 +177,27 @@ def modificardatos():
     print("      MODULO MODIFICAR CLIENTE     ")
     print("===================================")
     mostrartodo()
-
+    # ------------------------------------------------------------------------------------------
     # riesgo: transformar un str a entero sin comprobaciones
     # mod = int(input("\n Ingrese valor de ID del Cliente que desea Modificar : "))
     # el while true con try except intenta varias veces el input hasta que es valido
+    # Autor: Tomas 
     while True:
         try:
             mod = int(input("\n Ingrese valor de ID del Cliente que desea Modificar : "))
             break
         except ValueError:
             print("Hubo un problema al procesar su solicitud\nintente de nuevo")
-
     # riesgo: no se le asigno un valor por defecto a get, tampoco valida si realmente existe
     # datos = clientes.get(mod)
     # vemos si realmente existe algo
+    # Autor: Tomas 
     datos = clientes.get(mod, False)
     if datos == False:
         print("No se encontro el modulo a modificar.")
         return
-    
+    # Autor: Tomas 
+    # ------------------------------------------------------------------------------------------------
     print(" ID         : {} ".format(datos[0]))
     listanuevos.append(datos[0])
     print(" RUN        : {} ".format(datos[1]))
@@ -274,18 +287,18 @@ def ingresoUsuarios():
     print("=======================================")
     print("        INGRESO DE USUARIO             ")
     print("=======================================")
-
+    # ------------------------------------------------------------------------------------------------
     # riesgo en todos los inputs: no se usa strip, por lo cual, se acepta espacios entre caracteres
     # evitamos strip en nombre como apellidos puesto que si en algun momento el proyecto escala
     # estos datos estaran en una base de datos y aqui si podemos permitir espacios en nombre 
     # como tambien apellidos, esto para mejorar legibilidad en la supuesta base de datos
     # para los demas datos, ES necesario que NO se autorice el uso de espacios
-
+    # Autor: Tomas 
     username = input( "INGRESE NOMBRE DE USUARIO:  ").strip()
-
     # riesgo: la clave no se verifica, tampoco si la clave es fuerte
     # clave = input( "INGRESE PASSWORD         : ")
     # se pide reescribir la clave 2 veces para estar seguros
+    # Autor: Tomas 
     while True:
         clave = getpass.getpass( "INGRESE PASSWORD:  ").strip()
         if len(clave) < MINIMO_LONGITUD_CLAVE:
@@ -305,56 +318,60 @@ def ingresoUsuarios():
             continue
         else:
             break
-        
-
     nombre = input(   "INGRESE NOMBRE           : ")
     apellidos = input("INGRESE APELLIDOS        : ")
     # Riesgo: No se verifica el input de correo
     # correo = input(   "INGRESE CORREO           : ").strip() 
-
-    correo = input(   "INGRESE CORREO:  ").strip() 
-    empezar_contado = False
-    dominio = []
-    usuario = []
-    for buscar_dom in correo:
-        if buscar_dom == '@':
-            empezar_contado = True
-        elif empezar_contado == True:
-            dominio.append(buscar_dom)
-    for buscar_usuario in correo:
-        if not buscar_usuario == '@':
-            usuario.append(buscar_usuario)
+    # Autor: Tomas 
+    while True:
+        correo = input(   "INGRESE CORREO:  ").strip() 
+        empezar_contado = False
+        dominio = []
+        usuario = []
+        for buscar_dom in correo:
+            if buscar_dom == '@':
+                empezar_contado = True
+            elif empezar_contado == True:
+                dominio.append(buscar_dom)
+        for buscar_usuario in correo:
+            if not buscar_usuario == '@':
+                usuario.append(buscar_usuario)
+            else:
+                break
+        if (not '.' in dominio) or (not usuario):
+            print("correo invalido")
+            continue
         else:
             break
-    if (not '.' in dominio) or (not usuario):
-        print("correo invalido")
-
     # si pasa todas las pruebas recien se inserta los datos
+    # Autor: Tomas 
     print("=======================================")
     global idusuario
     idusuario += 1
     codigo = idusuario
-
     # guardamos la clave hasheada
     # si en la supuesta base de datos se muestran las claves
     # estaran todas hasheadas evitando que roben cuentas
-
+    # Autor: Tomas 
     clave_hasheada = (hashlib.sha256(clave.encode('utf-8'))).hexdigest()
     usuario = [codigo,username,clave_hasheada,nombre,apellidos,correo]
     usuarios[username] = usuario
-
+    # Autor: Tomas 
+    # --------------------------------------------------------------------------------------------------
 
 while True:
     menuUsuarios()
+    # ----------------------------------------------------------------------------------
     # opUsu = int(input("INGRESE OPCIÓN: "))
     # el while true con try except intenta varias veces el input hasta que es valido
+    # Autor: Tomas 
     while True:
         try:
             opUsu = int(input("INGRESE OPCIÓN: "))
             break
         except ValueError:
             print("Hubo un problema al procesar su solicitud\nintente de nuevo")
-
+    # Autor: Tomas 
     if opUsu == 1:
         user = input("Ingrese nombre de usuario: ")
         clave = getpass.getpass("Ingrese password: ")
@@ -364,7 +381,7 @@ while True:
         # Se agrego continue para saltar bucles
         # Tambien la verificacion de errores se pone primero 
         # Esto para evitar bloques gigantes indentados
-
+        # Autor: Tomas 
         conseguir_user = usuarios.get(user, False)
         if conseguir_user == False:
             input("Usuario no registrado. Presiona ENTER para volver al Menú de Usuarios.")
@@ -378,6 +395,7 @@ while True:
             menuprincipal()
             #op = int(input("INGRESE OPCIÓN: "))
             # el while true con try except intenta varias veces el input hasta que es valido
+            # Autor: Tomas 
             while True:
                 try:
                     op = int(input("INGRESE OPCIÓN: "))
