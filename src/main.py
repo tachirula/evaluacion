@@ -285,20 +285,28 @@ def ingresoUsuarios():
 
     # riesgo: la clave no se verifica, tampoco si la clave es fuerte
     # clave = input( "INGRESE PASSWORD         : ")
-
-    clave = getpass.getpass( "INGRESE PASSWORD:  ").strip()
-    if len(clave) < MINIMO_LONGITUD_CLAVE:
-        print(f"su clave debe contar con una longitud de {MINIMO_LONGITUD_CLAVE} como minimo")
-        return
-    flag = False
-    for char in clave:
-        if char in CHAR_ESPECIALES:
-            flag = True
+    # se pide reescribir la clave 2 veces para estar seguros
+    while True:
+        clave = getpass.getpass( "INGRESE PASSWORD:  ").strip()
+        if len(clave) < MINIMO_LONGITUD_CLAVE:
+            print(f"su clave debe contar con una longitud de {MINIMO_LONGITUD_CLAVE} como minimo")
+            continue
+        flag = False
+        for char in clave:
+            if char in CHAR_ESPECIALES:
+                flag = True
+                break
+        if flag == False:
+            print("su clave debe contener minimo 1 caracter especial")
+            continue
+        segunda_clave = getpass.getpass( "VUELVA A ESCRIBIR PASSWORD: " ).strip()
+        if not (segunda_clave == clave):
+            print("las passwords no coinciden")
+            continue
+        else:
             break
-    if flag == False:
-        print("su clave debe contener minimo 1 caracter especial")
-        return
-    
+        
+
     nombre = input(   "INGRESE NOMBRE           : ")
     apellidos = input("INGRESE APELLIDOS        : ")
     # Riesgo: No se verifica el input de correo
